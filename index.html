@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message For You ❤️</title>
+    <title>For My Favorite Person ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-pink: #ffe5ec;
             --env-base: #ff85a1;
             --env-flap: #ffaddb;
-            --env-inside: #ff5c8a;
             --text-red: #c9184a;
         }
 
@@ -25,24 +24,19 @@
             overflow: hidden;
         }
 
-        /* --- ENVELOPE CONTAINER --- */
-        .container {
-            position: relative;
-            z-index: 10;
-        }
-
         .envelope-wrapper {
             position: relative;
             width: 300px;
             height: 200px;
-            background: var(--env-inside);
+            background: #ff5c8a;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10;
         }
 
-        /* Front of the envelope (The triangle sides) */
+        /* Front triangles of envelope */
         .envelope-wrapper::after {
             content: "";
             position: absolute;
@@ -56,7 +50,6 @@
             bottom: 0;
         }
 
-        /* The Flap */
         .flap {
             position: absolute;
             top: 0; width: 0; height: 0;
@@ -68,10 +61,7 @@
             z-index: 6;
         }
 
-        .open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
+        .open .flap { transform: rotateX(180deg); z-index: 1; }
 
         .heart-seal {
             position: absolute;
@@ -79,84 +69,67 @@
             transform: translate(-50%, -50%);
             font-size: 45px;
             z-index: 7;
-            transition: 0.4s;
         }
-        .open .heart-seal { opacity: 0; }
+        .open .heart-seal { display: none; }
 
-        /* --- THE LETTER CONTENT --- */
         .letter {
             position: absolute;
             bottom: 10px; left: 10px;
             width: 280px;
             height: 180px;
             background: white;
-            border-radius: 5px;
-            z-index: 2; /* Sits behind the front flaps */
+            z-index: 2;
             transition: transform 0.8s ease, height 0.8s ease;
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            overflow: hidden;
+            border-radius: 5px;
         }
 
         .open .letter {
             transform: translateY(-130px);
             height: 380px;
-            z-index: 4; /* Slides out but stays under the flip-flap */
+            z-index: 4;
         }
 
-        /* Hides words until opened */
-        .letter-content {
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
+        .letter-content { opacity: 0; transition: 0.3s; }
+        .open .letter-content { opacity: 1; transition-delay: 0.6s; }
 
-        .open .letter-content {
-            opacity: 1;
-            transition-delay: 0.6s;
-        }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--text-red); margin: 5px 0; }
+        p { font-size: 0.9rem; color: #444; }
+        img { width: 140px; border-radius: 10px; margin: 10px 0; }
 
-        .letter h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--text-red);
-            margin: 5px 0;
-            font-size: 1.8rem;
-        }
-
-        .letter p { font-size: 0.85rem; color: #444; margin: 10px 0; }
-
-        .letter img {
-            width: 140px;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-
-        /* Buttons */
+        /* --- BUTTONS --- */
         .btns {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-top: 15px;
+            position: relative;
         }
 
         button {
-            padding: 8px 20px;
+            padding: 10px 25px;
             border: none;
             border-radius: 20px;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
         }
 
         #yesBtn { background: var(--text-red); color: white; }
-        #noBtn { background: #eee; position: absolute; }
+
+        #noBtn {
+            background: #eee;
+            color: #666;
+            position: fixed; /* Fixed position allows it to move anywhere on the screen */
+            z-index: 100;
+            transition: 0.2s ease;
+        }
 
         .hidden { display: none; }
 
-        /* Background Hearts */
-        .heart {
-            position: fixed; color: var(--text-red);
-            animation: float 4s linear infinite;
-        }
+        .heart { position: fixed; color: var(--text-red); animation: float 4s linear infinite; }
         @keyframes float {
             0% { transform: translateY(110vh); }
             100% { transform: translateY(-10vh); opacity: 0; }
@@ -165,28 +138,26 @@
 </head>
 <body>
 
-    <div class="container" id="container">
-        <div class="envelope-wrapper" id="envelope">
-            <div class="flap"></div>
-            <div class="heart-seal">❤️</div>
-            <div class="letter">
-                <div class="letter-content">
-                    <h1>Hi Beautiful...</h1>
-                    <p>I wanted to tell you that you're the best part of my every day. Every moment with you is my favorite.</p>
-                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyNHZidm56OXB3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif">
-                    <h1>Will you be my Valentine?</h1>
-                    <div class="btns">
-                        <button id="yesBtn">Yes!</button>
-                        <button id="noBtn">No</button>
-                    </div>
+    <div class="envelope-wrapper" id="envelope">
+        <div class="flap"></div>
+        <div class="heart-seal">❤️</div>
+        <div class="letter">
+            <div class="letter-content">
+                <h1>Hi Beautiful...</h1>
+                <p>You're the best part of my every day. I'm so lucky to have you.</p>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyNHZidm56OXB3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif">
+                <h1>Will you be my Valentine?</h1>
+                <div class="btns">
+                    <button id="yesBtn">Yes!</button>
+                    <button id="noBtn">No</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="celebration" class="hidden" style="text-align: center; z-index: 20;">
+    <div id="celebration" class="hidden" style="text-align: center; z-index: 200;">
         <h1 style="font-family: 'Dancing Script'; font-size: 4rem; color: #c9184a;">Yay! ❤️</h1>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyNHZidm56OXB3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KZTvWTM10uD39343T7/giphy.gif" style="width: 300px; border-radius: 20px;">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyNHZidm56OXB3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KZTvWTM10uD39343T7/giphy.gif" style="width: 250px;">
         <h2 style="color: #c9184a;">I'll see you on the 14th!</h2>
     </div>
 
@@ -195,27 +166,39 @@
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
 
-        // Toggle Open
+        // 1. Open Envelope
         envelope.addEventListener('click', () => {
             envelope.classList.add('open');
+            // Set initial position for 'No' button so it's inside the letter at first
+            const rect = yesBtn.getBoundingClientRect();
+            noBtn.style.top = rect.top + 'px';
+            noBtn.style.left = (rect.right + 20) + 'px';
         });
 
-        // Runaway Button Logic
+        // 2. Runaway Button Logic
         const moveButton = (e) => {
-            e.stopPropagation(); // Prevents clicking the envelope while trying to click "No"
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            // Calculate a random spot on the screen
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         };
 
+        // Triggers on hover (PC) or tap (Phone)
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents clicking
+            moveButton();
+        });
 
-        // Success Action
-        yesBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('container').classList.add('hidden');
+        // 3. Success Action
+        yesBtn.addEventListener('click', () => {
+            envelope.style.display = 'none';
+            noBtn.style.display = 'none';
             document.getElementById('celebration').classList.remove('hidden');
             setInterval(createHeart, 200);
         });
