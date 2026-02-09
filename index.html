@@ -180,11 +180,7 @@
             pointer-events: none; 
             z-index: 1000; 
             animation: popIn 3s ease-out forwards;
-            
             mix-blend-mode: multiply;
-
-            /* Erases Background */
-            filter: brightness(1.5) contrast(1.2);
         }
 
         @keyframes float {
@@ -295,7 +291,6 @@
             ];
             
             sb.src = characters[Math.floor(Math.random() * characters.length)];
-            sb.src = "https://media.tenor.com/-7FbFr5TkfYAAAAM/gary-snail.gif";
             sb.className = 'spongebob';
             
             const size = Math.random() * 70 + 60;
