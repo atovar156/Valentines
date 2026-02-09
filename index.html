@@ -58,7 +58,6 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(255, 133, 161, 0.4); 
             z-index: -1;
-            /* Removed backdrop-filter to prevent browser crashes */
         }
 
         /* --- ENVELOPE --- */
@@ -166,11 +165,33 @@
         #noBtn { background: #eee; color: #666; position: relative; z-index: 1000; }
 
         .hidden { display: none !important; }
-        .heart { position: fixed; color: var(--text-red); animation: float 4s linear infinite; z-index: 100; }
         
+        /* --- ANIMATED ELEMENTS --- */
+        .heart { 
+            position: fixed; 
+            color: var(--text-red); 
+            animation: float 4s linear infinite; 
+            z-index: 100; 
+        }
+
+        /* THIS IS THE CSS FOR THE DANCERS */
+        .spongebob { 
+            position: fixed; 
+            pointer-events: none; 
+            z-index: 1000; 
+            animation: popIn 3s ease-out forwards;
+        }
+
         @keyframes float {
             0% { transform: translateY(110vh) rotate(0deg); }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            20% { transform: scale(1.1) rotate(10deg); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0; }
         }
     </style>
 </head>
@@ -193,8 +214,7 @@
                 <h1>Hi Beautiful...</h1>
                 <p>You're the best part of my day. I'm so lucky to have you.</p>
                 <div class="gif-container">
-                    <img class="gif-img" src="https://media.tenor.com/u-elNmOvhkYAAAAM/happy-valentines-day-sponge-bob.gif" alt="❤️" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span style="display:none; font-size: 50px;">❤️</span>
+                    <img class="gif-img" src="https://media.tenor.com/u-elNmOvhkYAAAAM/happy-valentines-day-sponge-bob.gif" alt="❤️">
                 </div>
                 <h1>Will you be my Valentine?</h1>
                 <div class="btns">
@@ -208,8 +228,7 @@
     <div id="celebration" class="hidden" style="text-align: center; z-index: 200; padding: 20px;">
         <h1 style="font-family: 'Dancing Script'; font-size: 3rem; color: #c9184a;">Yay! ❤️</h1>
         <div class="gif-container">
-            <img src="https://media.tenor.com/qjvgz4G0Sm4AAAAM/patrick-spongebob-squarepants.gif" style="width: 180px; border-radius: 20px;" alt="❤️" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <span style="display:none; font-size: 80px;">💖</span>
+            <img src="https://media.tenor.com/qjvgz4G0Sm4AAAAM/patrick-spongebob-squarepants.gif" style="width: 180px; border-radius: 20px;" alt="❤️">
         </div>
         <h2 style="color: #c9184a;">I'll see you on the 14th!</h2>
     </div>
@@ -239,11 +258,17 @@
             moveButton();
         });
 
+        // FIXED YES BUTTON ACTION
         yesBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             document.getElementById('envelope').style.display = 'none';
             document.getElementById('celebration').classList.remove('hidden');
+            
+            // Starts the hearts
             setInterval(createHeart, 200);
+            
+            // STARTS THE SQUIDWARD/SPONGEBOB POP-UPS
+            setInterval(createSpongebob, 600);
         });
 
         function createHeart() {
@@ -257,26 +282,23 @@
         }
 
         function createSpongebob() {
-    const sb = document.createElement('img');
-    
-    // This array holds the transparent GIF links for both characters
-    const characters = [
-        "https://media.tenor.com/LhLd0kTwj8oAAAAi/dance-spongebob.gif", // Spongebob
-        "https://media.tenor.com/7S8YgN_3f70AAAAi/squidward-dance.gif"  // Squidward (Transparent)
-    ];
-    
-    // Randomly pick one of the two
-    sb.src = characters[Math.floor(Math.random() * characters.length)];
-    sb.className = 'spongebob'; // Keeps the same CSS styling as before
-    
-    const size = Math.random() * 70 + 60;
-    sb.style.width = size + 'px';
-    sb.style.left = Math.random() * (window.innerWidth - size) + 'px';
-    sb.style.top = Math.random() * (window.innerHeight - size) + 'px';
-    
-    document.body.appendChild(sb);
-    setTimeout(() => sb.remove(), 3000);
-}
+            const sb = document.createElement('img');
+            const characters = [
+                "https://media.tenor.com/LhLd0kTwj8oAAAAi/dance-spongebob.gif", 
+                "https://media.tenor.com/7S8YgN_3f70AAAAi/squidward-dance.gif"
+            ];
+            
+            sb.src = characters[Math.floor(Math.random() * characters.length)];
+            sb.className = 'spongebob';
+            
+            const size = Math.random() * 70 + 60;
+            sb.style.width = size + 'px';
+            sb.style.left = Math.random() * (window.innerWidth - size) + 'px';
+            sb.style.top = Math.random() * (window.innerHeight - size) + 'px';
+            
+            document.body.appendChild(sb);
+            setTimeout(() => sb.remove(), 3000);
+        }
     </script>
 </body>
 </html>
