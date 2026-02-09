@@ -58,7 +58,6 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(255, 133, 161, 0.4); 
             z-index: -1;
-            /* Removed backdrop-filter to prevent browser crashes */
         }
 
         /* --- ENVELOPE --- */
@@ -166,11 +165,33 @@
         #noBtn { background: #eee; color: #666; position: relative; z-index: 1000; }
 
         .hidden { display: none !important; }
-        .heart { position: fixed; color: var(--text-red); animation: float 4s linear infinite; z-index: 100; }
         
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); }
+        /* --- CELEBRATION ELEMENTS --- */
+        .heart, .spongebob { 
+            position: fixed; 
+            pointer-events: none;
+            z-index: 100; 
+        }
+
+        .heart { 
+            color: var(--text-red); 
+            animation: floatUp 4s linear forwards; 
+        }
+
+        .spongebob {
+            animation: popIn 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            20% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0; }
         }
     </style>
 </head>
@@ -191,10 +212,9 @@
         <div class="letter">
             <div class="letter-content">
                 <h1>Hi Beautiful...</h1>
-                <p>You're the best part of my day. I'm so lucky to have you.</p>
+                <p>You're the best part of my every day.</p>
                 <div class="gif-container">
-                    <img class="gif-img" src="https://media.tenor.com/u-elNmOvhkYAAAAM/happy-valentines-day-sponge-bob.gif" alt="❤️" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span style="display:none; font-size: 50px;">❤️</span>
+                    <img class="gif-img" src="https://media.tenor.com/Z9S_M8P0-70AAAAi/milk-and-mocha-bear.gif" alt="❤️">
                 </div>
                 <h1>Will you be my Valentine?</h1>
                 <div class="btns">
@@ -206,12 +226,8 @@
     </div>
 
     <div id="celebration" class="hidden" style="text-align: center; z-index: 200; padding: 20px;">
-        <h1 style="font-family: 'Dancing Script'; font-size: 3rem; color: #c9184a;">Yay! ❤️</h1>
-        <div class="gif-container">
-            <img src="https://media.tenor.com/qjvgz4G0Sm4AAAAM/patrick-spongebob-squarepants.gif" style="width: 180px; border-radius: 20px;" alt="❤️" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <span style="display:none; font-size: 80px;">💖</span>
-        </div>
-        <h2 style="color: #c9184a;">I'll see you on the 14th!</h2>
+        <h1 style="font-family: 'Dancing Script'; font-size: 3.5rem; color: #c9184a;">Yay! ❤️</h1>
+        <h2 style="color: #c9184a;">Best choice ever! See you then!</h2>
     </div>
 
     <script>
@@ -243,7 +259,10 @@
             e.stopPropagation();
             document.getElementById('envelope').style.display = 'none';
             document.getElementById('celebration').classList.remove('hidden');
-            setInterval(createHeart, 200);
+            
+            // Start the chaos
+            setInterval(createHeart, 300);
+            setInterval(createSpongebob, 600);
         });
 
         function createHeart() {
@@ -254,6 +273,25 @@
             h.style.fontSize = Math.random() * 20 + 20 + 'px';
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 4000);
+        }
+
+        function createSpongebob() {
+            const sb = document.createElement('img');
+            sb.src = "https://media.tenor.com/LhLd0kTwj8oAAAAM/dance-spongebob.gif";
+            sb.className = 'spongebob';
+            
+            // Random size between 50px and 120px
+            const size = Math.random() * 70 + 50;
+            sb.style.width = size + 'px';
+            
+            // Random position
+            sb.style.left = Math.random() * (window.innerWidth - size) + 'px';
+            sb.style.top = Math.random() * (window.innerHeight - size) + 'px';
+            
+            document.body.appendChild(sb);
+            
+            // Remove after animation finishes
+            setTimeout(() => sb.remove(), 3000);
         }
     </script>
 </body>
