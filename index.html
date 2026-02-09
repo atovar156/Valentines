@@ -255,6 +255,28 @@
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 4000);
         }
+
+        function createSpongebob() {
+    const sb = document.createElement('img');
+    
+    // This array holds the transparent GIF links for both characters
+    const characters = [
+        "https://media.tenor.com/LhLd0kTwj8oAAAAi/dance-spongebob.gif", // Spongebob
+        "https://media.tenor.com/7S8YgN_3f70AAAAi/squidward-dance.gif"  // Squidward (Transparent)
+    ];
+    
+    // Randomly pick one of the two
+    sb.src = characters[Math.floor(Math.random() * characters.length)];
+    sb.className = 'spongebob'; // Keeps the same CSS styling as before
+    
+    const size = Math.random() * 70 + 60;
+    sb.style.width = size + 'px';
+    sb.style.left = Math.random() * (window.innerWidth - size) + 'px';
+    sb.style.top = Math.random() * (window.innerHeight - size) + 'px';
+    
+    document.body.appendChild(sb);
+    setTimeout(() => sb.remove(), 3000);
+}
     </script>
 </body>
 </html>
